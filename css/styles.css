@@ -254,29 +254,36 @@ section { padding: 120px 0; }
 .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 @media (max-width: 960px) {
+  .nav-inner { height: 72px; }
   .nav-links, .nav-cta .btn-outline { display: none; }
-  .nav-toggle { display: flex; }
+  .nav-toggle { display: flex; position: relative; z-index: 102; }
+  body.menu-open { overflow: hidden; }
   .nav-links.open {
     display: flex; flex-direction: column;
-    position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
-    background: var(--bg); padding: 32px 24px;
+    position: fixed; top: 72px; left: 0; right: 0;
+    height: calc(100vh - 72px); height: calc(100dvh - 72px);
+    background: #fff; padding: 24px 24px 120px;
     gap: 0; border-top: 1px solid var(--line);
     overflow-y: auto;
-    z-index: 99;
+    -webkit-overflow-scrolling: touch;
+    z-index: 101;
+    margin: 0; list-style: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   }
-  .nav-links.open li { list-style: none; }
+  .nav-links.open li { list-style: none; display: block; }
   .nav-links.open a {
     display: block;
-    padding: 18px 0; font-size: 1.25rem; letter-spacing: 0.06em;
+    padding: 18px 4px; font-size: 1.25rem; letter-spacing: 0.06em;
     color: var(--ink);
     border-bottom: 1px solid var(--line);
   }
-  .nav-links.open a::after { left: 0; right: auto; width: 0; }
-  .nav-links.open a:hover::after, .nav-links.open a.active::after { width: 28px; transform: none; }
+  .nav-links.open a::after { display: none; }
   /* Override hero-nav white color when mobile menu is open */
   .hero-nav:not(.scrolled) .nav-links.open a { color: var(--ink); }
   .hero-nav:not(.scrolled) .nav-links.open a:hover,
   .hero-nav:not(.scrolled) .nav-links.open a.active { color: var(--gold-dark); }
+  /* Hide floating WhatsApp button while menu is open so it doesn't cover links */
+  body.menu-open .wa-float { display: none; }
 }
 
 /* ============================================
