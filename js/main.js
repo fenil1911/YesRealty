@@ -35,16 +35,28 @@
   });
 })();
 
-// ── Text split into chars ──
+// ── Text split into chars (grouped by word to avoid mid-word line-breaks) ──
 function splitTextIntoChars(el) {
   const text = el.textContent;
   el.innerHTML = '';
-  text.split('').forEach((ch, i) => {
-    const span = document.createElement('span');
-    span.className = 'char';
-    span.textContent = ch === ' ' ? '\u00a0' : ch;
-    span.style.transitionDelay = `${i * 28}ms`;
-    el.appendChild(span);
+  let charIdx = 0;
+  const words = text.split(/(\s+)/);
+  words.forEach((word) => {
+    if (/^\s+$/.test(word)) {
+      el.appendChild(document.createTextNode(' '));
+      return;
+    }
+    const wordWrap = document.createElement('span');
+    wordWrap.className = 'word';
+    word.split('').forEach((ch) => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = ch;
+      span.style.transitionDelay = `${charIdx * 28}ms`;
+      wordWrap.appendChild(span);
+      charIdx++;
+    });
+    el.appendChild(wordWrap);
   });
 }
 

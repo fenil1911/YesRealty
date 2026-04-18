@@ -258,13 +258,25 @@ section { padding: 120px 0; }
   .nav-toggle { display: flex; }
   .nav-links.open {
     display: flex; flex-direction: column;
-    position: fixed; top: 80px; left: 0; right: 0; bottom: 0;
-    background: var(--bg); padding: 40px 32px;
+    position: fixed; top: 72px; left: 0; right: 0; bottom: 0;
+    background: var(--bg); padding: 32px 24px;
     gap: 0; border-top: 1px solid var(--line);
+    overflow-y: auto;
+    z-index: 99;
   }
-  .nav-links.open a { padding: 18px 0; font-size: 1.25rem; letter-spacing: 0.06em; }
+  .nav-links.open li { list-style: none; }
+  .nav-links.open a {
+    display: block;
+    padding: 18px 0; font-size: 1.25rem; letter-spacing: 0.06em;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
   .nav-links.open a::after { left: 0; right: auto; width: 0; }
   .nav-links.open a:hover::after, .nav-links.open a.active::after { width: 28px; transform: none; }
+  /* Override hero-nav white color when mobile menu is open */
+  .hero-nav:not(.scrolled) .nav-links.open a { color: var(--ink); }
+  .hero-nav:not(.scrolled) .nav-links.open a:hover,
+  .hero-nav:not(.scrolled) .nav-links.open a.active { color: var(--gold-dark); }
 }
 
 /* ============================================
@@ -314,8 +326,11 @@ section { padding: 120px 0; }
 .hero-tag::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
 
 .hero h1 {
-  font-size: clamp(3rem, 6.5vw, 6rem);
-  line-height: 1.0;
+  font-size: clamp(2.25rem, 6.5vw, 6rem);
+  line-height: 1.05;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  hyphens: none;
   margin-bottom: 28px;
   color: #F5F0E8;
 }
@@ -619,7 +634,16 @@ section { padding: 120px 0; }
   border: 1px solid var(--line);
   position: sticky; top: 100px;
 }
-@media (max-width: 900px) { .about-story-img { position: static; aspect-ratio: 16/9; } }
+.about-story-img img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block;
+  filter: grayscale(100%);
+}
+@media (max-width: 900px) {
+  .about-story-img { position: static; aspect-ratio: auto; }
+  .about-story-img img { object-fit: contain; height: auto; }
+}
 
 .about-points { list-style: none; display: grid; gap: 14px; }
 .about-points li {
@@ -1111,6 +1135,10 @@ section { padding: 120px 0; }
 [data-delay="500"] { transition-delay: 500ms !important; }
 [data-delay="600"] { transition-delay: 600ms !important; }
 
+.split-text .word {
+  display: inline-block;
+  white-space: nowrap;
+}
 .split-text .char {
   display: inline-block; opacity: 0;
   transform: translateY(60%) rotateX(-40deg);
