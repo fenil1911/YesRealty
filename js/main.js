@@ -13,16 +13,13 @@
   const toggle = document.querySelector('.nav-toggle');
   const links  = document.querySelector('.nav-links');
   if (toggle && links) {
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('open');
-      links.classList.toggle('open');
-      document.body.style.overflow = links.classList.contains('open') ? 'hidden' : '';
-    });
-    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      toggle.classList.remove('open');
-      links.classList.remove('open');
-      document.body.style.overflow = '';
-    }));
+    const setOpen = (open) => {
+      toggle.classList.toggle('open', open);
+      links.classList.toggle('open', open);
+      document.body.classList.toggle('menu-open', open);
+    };
+    toggle.addEventListener('click', () => setOpen(!links.classList.contains('open')));
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
   }
 })();
 
